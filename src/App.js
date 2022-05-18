@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SendPost } from "./components/SendPost/SendPost.jsx";
+import { UpdateAccountInfo } from "./components/UpdateAccountInfo/UpdateAccountInfo.jsx";
+import { Comments } from "./components/Comments/Comments.jsx";
+import { ViewPosts } from "./components/ViewPosts/ViewPosts.jsx";
 
+// header myprofile viewpost footer
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="header" element={<Comments />}></Route>
+        <Route exact path="myprofile" element={<SendPost />}></Route>
+        <Route exact path="viewpost" element={<ViewPosts />}></Route>
+        <Route exact path="footer" element={<UpdateAccountInfo />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
