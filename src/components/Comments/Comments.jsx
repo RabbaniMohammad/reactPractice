@@ -1,35 +1,116 @@
-// not the name intially
+import * as React from "react";
+import Button from "@mui/material/Button";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import UpdateAccountInfo from "../UpdateAccountInfo/UpdateAccountInfo";
 
-import { Link } from "react-router-dom";
-export default function Comments() {
-  const array = [1, 2, 3, 4, 5, 6, 7, 8];
-  // actually we don't want any array as such just for giving the index, we will the index from the map index property and the array should consist of the data only which must be visible
+export default function MenuListComposition() {
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
 
-  // this is the page with the data
-  const database = [
-    { name: "rabbani", age: 21 },
-    { name: "munna", age: 20 },
-  ];
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
+
   return (
-    <div>
-      {array.map((ele, index) => {
-        return (
-          <>
-            <div>
-              <Link
-                to={`myprofile/${index}`}
-              >{`And this the data from the array ${ele}`}</Link>
-            </div>
-          </>
-        );
-      })}
-      {database.map((arr, index) => (
-        <Link
-          key={index}
-          to="viewpost"
-          state={arr}
-        >{`wanna go to ${arr.name}`}</Link>
-      ))}
-    </div>
+    <Stack direction="row" spacing={2}>
+      <div>
+        <Button
+          ref={anchorRef}
+          id="composition-button"
+          aria-controls={open ? "composition-menu" : undefined}
+          aria-expanded={open ? "true" : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
+        >
+          Dashboard
+        </Button>
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          placement="bottom-start"
+          transition
+          disablePortal
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === "bottom-start" ? "left top" : "left bottom",
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList
+                    autoFocusItem={open}
+                    id="composition-menu"
+                    aria-labelledby="composition-button"
+                    onKeyDown={handleListKeyDown}
+                  >
+                    <MenuItem onClick={handleClose}>SignIn</MenuItem>
+                    <MenuItem onClick={handleClose}>Login</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </div>
+      <section>
+        <div>
+          <h1>Profile</h1>
+          <UpdateAccountInfo />
+        </div>
+      </section>
+    </Stack>
   );
 }
