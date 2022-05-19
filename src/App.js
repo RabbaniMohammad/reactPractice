@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<Comments />}></Route>
-        <Route exact path="myprofile/:id" element={<SendPost />}></Route>
+        <Route exact path="myprofile" element={<SendPost />}></Route>
         <Route exact path="signin" element={<ViewPosts />}></Route>
         <Route exact path="post" element={<UpdateAccountInfo />}></Route>
         <Route exact path="signup" element={<SignUp />}></Route>
