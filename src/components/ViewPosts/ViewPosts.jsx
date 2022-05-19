@@ -1,20 +1,26 @@
-import { useLocation } from "react-router";
-import { useState, useEffect } from "react";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
-const ViewPosts = () => {
-  const state = useLocation();
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    document.title = `Chat-${val}`;
-  });
+export default function BasicTextFields() {
   return (
-    <div>
-      {`this page belongs to the ${state.state.name}`}
-      <button onClick={() => setVal(val + 1)}>
-        Click here to update the chat
-      </button>
-    </div>
+    <Box
+      component="form"
+      sx={{
+        "& > :not(style)": { m: 1, width: "25ch" },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <TextField id="filled-basic" label="Email" variant="filled" />
+      <br />
+      <TextField id="standard-basic" label="Password" variant="standard" />
+      <br />
+      <Stack spacing={2} direction="row">
+        <Button variant="contained">Login</Button>
+      </Stack>
+    </Box>
   );
-};
-
-export default ViewPosts;
+}
