@@ -52,7 +52,7 @@ export default function RecipeReviewCard() {
       <CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
+        image="https://upload.wikimedia.org/wikipedia/commons/5/59/A_traditional_indian_dish_of_bengal%28pulao-mangsha_with_misti_doi%29.jpg"
         alt="Paella dish"
       />
       <CardContent>
@@ -69,6 +69,7 @@ export default function RecipeReviewCard() {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
+        <input type="text" placeholder="Comment" />
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
