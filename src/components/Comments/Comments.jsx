@@ -8,11 +8,14 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
 import UpdateAccountInfo from "../UpdateAccountInfo/UpdateAccountInfo";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+// import { shape } from "@mui/system"
 
 export default function MenuListComposition() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-
+  const [approval, setApproval] = useState(false);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -44,6 +47,10 @@ export default function MenuListComposition() {
     prevOpen.current = open;
   }, [open]);
 
+  function showDetails() {
+    if (approval) return <UpdateAccountInfo />;
+    else return <div>Please Login or signup</div>;
+  }
   return (
     <Stack direction="row" spacing={2}>
       <div>
@@ -81,8 +88,14 @@ export default function MenuListComposition() {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={handleClose}>SignIn</MenuItem>
-                    <MenuItem onClick={handleClose}>Login</MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <Link to="/signup" state={setApproval}>
+                        SignIn
+                      </Link>
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <Link to="/signin">Login</Link>
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -93,7 +106,7 @@ export default function MenuListComposition() {
       <section>
         <div>
           <h1>Profile</h1>
-          <UpdateAccountInfo />
+          {showDetails()}
         </div>
       </section>
     </Stack>
